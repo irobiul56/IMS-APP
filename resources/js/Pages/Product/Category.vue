@@ -3,65 +3,58 @@ import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { ref, computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
-const users = ref([
-    { id: 1, name: 'John Doe', image: 28, slug: 'John-Doe' },
-    { id: 2, name: 'Jane Smith', image: 34, slug: 'John-Doe' },
-    { id: 3, name: 'Mike Johnson', image: 45, slug: 'John-Doe' },
-    { id: 4, name: 'Sarah Williams', image: 25, slug: 'sJohn-Doe' },
-    { id: 5, name: 'Chris Brown', image: 38, slug: 'cJohn-Doe' },
-    { id: 6, name: 'Nancy Lee', image: 32, slug: 'nJohn-Doe' },
-    { id: 7, name: 'Paul Walker', image: 27, slug: 'John-Doe' },
-    { id: 8, name: 'Emma Davis', image: 40, slug: 'John-Doe' },
-    { id: 9, name: 'Jake White', image: 29, slug: 'John-Doe' },
-    { id: 10, name: 'Laura Green', image: 36, slug: 'lJohn-Doe' },
-    { id: 10, name: 'Laura Green', image: 36, slug: 'lJohn-Doe' },
-    { id: 10, name: 'Laura Green', image: 36, slug: 'lJohn-Doe' },
-    { id: 10, name: 'Laura Green', image: 36, slug: 'lJohn-Doe' },
-    { id: 10, name: 'Laura Green', image: 36, slug: 'lJohn-Doe' },
-    { id: 10, name: 'Laura Green', image: 36, slug: 'lJohn-Doe' },
-    { id: 10, name: 'Laura Green', image: 36, slug: 'lJohn-Doe' },
-    { id: 10, name: 'Laura Green', image: 36, slug: 'lJohn-Doe' },
-])
+const { props } = usePage()
+const categories = ref(props.category)
 
 const itemsPerPage = ref(10)
 const currentPage = ref(1)
 const searchQuery = ref('')
 
-const filteredUsers = computed(() => {
-    const filtered = users.value.filter(user =>
-        user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-    )
-    const start = (currentPage.value - 1) * itemsPerPage.value
-    const end = start + itemsPerPage.value
-    return filtered.slice(start, end)
+const filteredCategory = computed(() => {
+  const filtered = categories.value.filter(category => 
+  category.name.toLowerCase().includes(searchQuery.value.toLowerCase()) 
+  )
+  const start = (currentPage.value - 1) * itemsPerPage.value
+  const end = start + itemsPerPage.value
+  return filtered.slice(start, end)
 })
 
 const totalPages = computed(() => {
-    return Math.ceil(
-        users.value.filter(user =>
-            user.name.toLowerCase().includes(searchQuery.value.toLowerCase())
-        ).length / itemsPerPage.value
-    )
+  return Math.ceil(
+    categories.value.filter(category => 
+    category.name.toLowerCase().includes(searchQuery.value.toLowerCase()) 
+    ).length / itemsPerPage.value
+  )
 })
 
 const nextPage = () => {
-    if (currentPage.value < totalPages.value) {
-        currentPage.value++
-    }
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++
+  }
 }
 
 const prevPage = () => {
-    if (currentPage.value > 1) {
-        currentPage.value--
-    }
+  if (currentPage.value > 1) {
+    currentPage.value--
+  }
 }
+
+
+defineProps({ 
+    errors: Object 
+})
+
 
 </script>
 
 <template>
     <FrontendLayout>
-
+        <div v-if="$page.props.flash.message" class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 alert">
+        {{ $page.props.flash.message }}
+      </div>
+      
         <Head title="Category page"></Head>
         <div class="container mx-auto">
             <div class="relative mx-4 lg:mx-0 mb-2">
@@ -75,6 +68,10 @@ const prevPage = () => {
                 <input v-model="searchQuery"
                     class="w-32 pl-10 pr-4 text-indigo-600 border-gray-200 rounded-md sm:w-64 focus:border-indigo-600 focus:ring focus:ring-opacity-40 focus:ring-indigo-500"
                     type="text" placeholder="Search">
+                <Link :href="route('category.create')">
+                <span class="ml-5 bg-blue-500 text-white px-4 py-2 rounded inline-block"> Product Category</span>
+                </Link>
+
             </div>
 
             <table class="min-w-full bg-white shadow-md rounded-lg">
@@ -82,22 +79,18 @@ const prevPage = () => {
                     <tr class="text-left">
                         <th class="py-2 px-4 border-b-2">#</th>
                         <th class="py-2 px-4 border-b-2">Category</th>
-                        <th class="py-2 px-4 border-b-2">Image</th>
-                        <th class="py-2 px-4 border-b-2">Slug</th>
-                        <th class="py-2 px-4 border-b-2">Count</th>
+                        <th class="py-2 px-4 border-b-2">Product Count</th>
                         <th class="py-2 px-4 border-b-2">Action</th>
 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="user in filteredUsers" :key="user.id" class="hover:bg-gray-100">
-                        <td class="py-2 px-4 border-b">{{ user.id }}</td>
-                        <td class="py-2 px-4 border-b">{{ user.name }}</td>
-                        <td class="py-2 px-4 border-b">{{ user.image }}</td>
-                        <td class="py-2 px-4 border-b">{{ user.slug }}</td>
+                    <tr v-for="category in filteredCategory" :key="category.id" class="hover:bg-gray-100">
+                        <td class="py-2 px-4 border-b">{{ category.id }}</td>
+                        <td class="py-2 px-4 border-b">{{ category.name }}</td>
                         <td class="py-2 px-4 border-b">5</td>
                         <td class="py-2 px-4 border-b flex">
-                            <Link :href="route('category')">
+                            <Link :href="route('category.index')">
                             <svg class="w-6 h-6 text-green-600 dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
@@ -107,7 +100,7 @@ const prevPage = () => {
                             </svg>
                             </Link>
 
-                            <Link :href="route('category')">
+                            <Link :href="route('category.index')">
                             <svg class="w-6 h-6 text-blue-400 dark:text-white ml-5" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
@@ -117,7 +110,7 @@ const prevPage = () => {
                             </svg>
                             </Link>
 
-                            <Link :href="route('category')">
+                            <Link :href="route('category.index')">
                             <svg class="w-6 h-6 text-red-400 dark:text-white ml-5" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">

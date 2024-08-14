@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProductCategoryModel;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +14,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Product/Category');
+        $category = ProductCategoryModel::all(); 
+        return Inertia::render('Product/Category', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -21,7 +25,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Product/CategoryAdd');
     }
 
     /**
@@ -29,7 +33,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request -> validate([
+            'name'  => 'required|string|max:255| unique:product_category_models'
+        ]);
+
+        ProductCategoryModel::create([
+            'name' => $request -> name
+        ]);
+
+        return redirect() -> to(route('category.index')) -> with('message', 'Category created successfull');
     }
 
     /**

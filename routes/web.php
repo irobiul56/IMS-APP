@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pos', [FronendController::class, 'pos']) -> name('pos');
 
     //Product Category
-    Route::get('/product/category', [CategoryController::class, 'index']) -> name('category');
+    Route::resource('category', CategoryController::class);
     //Product
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
