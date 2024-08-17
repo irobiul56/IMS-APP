@@ -55,24 +55,37 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(ProductCategoryModel $category)
     {
-        //
+        return Inertia::render('Product/CategoryEdit', [
+            'category'  => $category
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, ProductCategoryModel $category)
     {
-        //
+        $request -> validate([
+            'name'  => 'required|string|max:255'
+        ]);
+
+
+        $category ->update([
+            'name' => $request -> name
+        ]);
+
+        return redirect() -> to(route('category.index')) -> with('message', 'Category Updated successfull');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(ProductCategoryModel $category)
     {
-        //
+        $category -> delete();
+
+        return redirect() -> to(route('category.index')) -> with('message', 'Category Deleted successfull');
     }
 }

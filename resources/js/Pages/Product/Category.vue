@@ -3,7 +3,7 @@ import FrontendLayout from "@/Layouts/FrontendLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import { Link } from "@inertiajs/vue3";
 import { ref, computed } from 'vue'
-import { usePage } from '@inertiajs/vue3'
+import { usePage, useForm } from '@inertiajs/vue3'
 
 const { props } = usePage()
 const categories = ref(props.category)
@@ -46,6 +46,13 @@ defineProps({
     errors: Object 
 })
 
+const form = useForm({});
+
+
+const deleteCategory = (categoryId) =>{
+    if(confirm("Are you sure you want to delete this data ?"));
+    form.delete(route('category.destroy', categoryId));
+}
 
 </script>
 
@@ -85,8 +92,8 @@ defineProps({
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="category in filteredCategory" :key="category.id" class="hover:bg-gray-100">
-                        <td class="py-2 px-4 border-b">{{ category.id }}</td>
+                    <tr v-for="(category, index) in filteredCategory" :key="index" class="hover:bg-gray-100">
+                        <td class="py-2 px-4 border-b">{{ index + 1 }}</td>
                         <td class="py-2 px-4 border-b">{{ category.name }}</td>
                         <td class="py-2 px-4 border-b">5</td>
                         <td class="py-2 px-4 border-b flex">
@@ -100,7 +107,7 @@ defineProps({
                             </svg>
                             </Link>
 
-                            <Link :href="route('category.index')">
+                            <Link :href="route('category.edit', category.id)">
                             <svg class="w-6 h-6 text-blue-400 dark:text-white ml-5" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
@@ -110,7 +117,7 @@ defineProps({
                             </svg>
                             </Link>
 
-                            <Link :href="route('category.index')">
+                            <Link @click="deleteCategory(category.id)">
                             <svg class="w-6 h-6 text-red-400 dark:text-white ml-5" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
