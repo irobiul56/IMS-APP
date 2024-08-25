@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FronendController;
 use App\Http\Controllers\Product\CategoryController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,9 @@ Route::middleware('auth')->group(function () {
 
     //Product Category
     Route::resource('category', CategoryController::class);
+
     //Product
+    Route::resource('product', ProductController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

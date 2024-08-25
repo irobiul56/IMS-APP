@@ -32,7 +32,7 @@
                                             <button id="decrease"
                                                 class="w-5 h-5 flex items-center justify-center bg-gray-300 hover:bg-gray-400 text-black rounded">-</button>
                                             <input id="quantity" type="text" value="1"
-                                                class="w-5 text-center border border-gray-300 rounded" />
+                                                class="w-10 h-6  text-center border border-gray-300 rounded" />
                                             <button id="increase"
                                                 class="w-5 h-5 flex items-center justify-center bg-gray-300 hover:bg-gray-400 text-black rounded">+</button>
                                         </div>
@@ -44,15 +44,14 @@
                                             - </button>
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td class="border-b p-2">Product 2</td>
                                     <td class="border-b p-2">
                                         <div class="flex items-center space-x-1">
                                             <button id="decrease"
                                                 class="w-5 h-5 flex items-center justify-center bg-gray-300 hover:bg-gray-400 text-black rounded">-</button>
-                                            <input id="quantity" type="text" value="10"
-                                                class="w-5 text-center border border-gray-300 rounded" />
+                                            <input id="quantity" type="text" value="1"
+                                                class="w-10 h-6  text-center border border-gray-300 rounded" />
                                             <button id="increase"
                                                 class="w-5 h-5 flex items-center justify-center bg-gray-300 hover:bg-gray-400 text-black rounded">+</button>
                                         </div>
@@ -64,15 +63,14 @@
                                             - </button>
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td class="border-b p-2">Product 2</td>
                                     <td class="border-b p-2">
                                         <div class="flex items-center space-x-1">
                                             <button id="decrease"
                                                 class="w-5 h-5 flex items-center justify-center bg-gray-300 hover:bg-gray-400 text-black rounded">-</button>
-                                            <input id="quantity" type="text" value="2"
-                                                class="w-5 text-center border border-gray-300 rounded" />
+                                            <input id="quantity" type="text" value="1"
+                                                class="w-10 h-6  text-center border border-gray-300 rounded" />
                                             <button id="increase"
                                                 class="w-5 h-5 flex items-center justify-center bg-gray-300 hover:bg-gray-400 text-black rounded">+</button>
                                         </div>
@@ -132,7 +130,7 @@
                         </nav>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                             <!-- Example product card -->
-                            <div class="bg-white p-4 rounded-lg shadow-lg">
+                            <div class="bg-white p-4 rounded-lg shadow-lg cursor-pointer">
                                 <img src="https://via.placeholder.com/150" alt="Product Image"
                                     class="w-full h-32 object-cover mb-2 rounded">
                                 <h3 class="text-lg font-semibold mb-2">Product 1</h3>
